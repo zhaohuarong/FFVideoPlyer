@@ -16,7 +16,6 @@ VideoViewWidget::VideoViewWidget(QWidget *parent)
 
 VideoViewWidget::~VideoViewWidget()
 {
-
 }
 
 void VideoViewWidget::paintEvent(QPaintEvent *e)
@@ -24,7 +23,7 @@ void VideoViewWidget::paintEvent(QPaintEvent *e)
     Q_UNUSED(e);
     static QImage *image = nullptr;
 
-    static int w = 0; //save window size
+    static int w = 0;
 	static int h = 0;
 	if (w != width() || h != height())
 	{

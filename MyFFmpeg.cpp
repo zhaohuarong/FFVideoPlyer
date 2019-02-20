@@ -28,7 +28,8 @@ void MyFFmpeg::OpenVideo(const char *path)
         qDebug() << "error:" << buf;
 		return;
 	}
-    qDebug() << "================";
+
+    //av_seek_frame(m_afc,-1,10*AV_TIME_BASE,AVSEEK_FLAG_ANY);
 
     for (int i = 0; i < m_afc->nb_streams; i++)
 	{
@@ -43,9 +44,9 @@ void MyFFmpeg::OpenVideo(const char *path)
 			{
 				mtx.unlock();
 				return;
-			}
+            }
 
-			int err = avcodec_open2(acc, codec, NULL);
+            int err = avcodec_open2(acc, codec, NULL);
 
 			if (err != 0)
 			{
@@ -149,6 +150,7 @@ void MyFFmpeg::DecodeFrame(const AVPacket *pkt)
 		mtx.unlock();
 		return;
 	}
+
 	mtx.unlock();
 }
 
@@ -166,7 +168,7 @@ AVPacket MyFFmpeg::ReadFrame()
 
 	int err = av_read_frame(m_afc, &pkt);
 	if (err != 0)
-	{
+    {
 	}
 	mtx.unlock();
 
@@ -189,6 +191,8 @@ bool MyFFmpeg::YuvToRGB(char *out, int outweight, int outheight)
         AV_PIX_FMT_BGRA,
         SWS_BICUBIC,
         nullptr, nullptr, nullptr);
+
+//    qDebug() << "w:" << videoCtx->width << "h:" << videoCtx->height;
 
 	if (m_cCtx)
 	{
